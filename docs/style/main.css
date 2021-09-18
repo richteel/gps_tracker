@@ -1,0 +1,60 @@
+body {
+	background-color: silver;
+}
+.container {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px 10px 0px 10px;
+}
+.containerCentered {
+	max-width: 1024px;
+}
+.fill-white {
+	background-color: white;
+}
+.content-outer {
+	display: table;
+	width: 100%;
+}
+.content-inner {
+	display: table-cell;
+	/* padding: 5px; */
+}
+
+/*** LOGO ***/
+.logo-container {
+	padding: 5px;
+	width: 240px;
+}
+.logo-container a {
+	text-decoration: none;
+	color: inherit;
+}
+#logo {
+	height: 56px;
+	vertical-align: middle;
+}
+.logoText {
+	display: inline-block;
+	text-align: left;
+	color: #21496a;
+	font-size: smaller;
+	vertical-align: middle;
+}
+
+.menu {
+	display: block;
+}
+.menu-content-inner {
+	vertical-align: bottom;
+}
+h1 {
+	background-color: blue;
+	color: white;
+	text-align: center;
+}
+h2 {
+	border-bottom: 3px solid black;
+	text-align: center;
+}
