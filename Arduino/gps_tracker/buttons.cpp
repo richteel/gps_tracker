@@ -2,21 +2,16 @@
 
 
 /******** PUBLIC ********/
-void Buttons::begin(int buttonCount, ButtonState buttons[]) {
+void Buttons::begin(int buttonCount, ButtonState &buttons) {
   buttonStateArrayLen = buttonCount;
-  buttonStateArrPtr = &buttons[0];
+  buttonStateArrPtr = &buttons;
 
   for (int i = 0; i < buttonCount; i++) {
-    pinMode(buttons[i].switchPin, INPUT);
+    pinMode(buttonStateArrPtr[i].switchPin, INPUT);
   }
 }
 
 bool Buttons::readSwitch(int swIndex) {
-  // buttonStateArrPtr[swIndex].switchPin
-  // buttonStateArrPtr[swIndex].currentState
-  // buttonStateArrPtr[swIndex].lastButtonState
-  // buttonStateArrPtr[swIndex].lastDebounceTime
-
   bool retval = false;
   int reading = digitalRead(buttonStateArrPtr[swIndex].switchPin);
 

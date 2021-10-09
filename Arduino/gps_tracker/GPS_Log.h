@@ -2,9 +2,6 @@
 #define GPS_LOG_H
 
 #include <NMEAGPS.h>
-#include <SD.h>
-#include <SPI.h>
-#include <TimeLib.h>
 #include "SD_Card.h"
 
 class GPS_Log {

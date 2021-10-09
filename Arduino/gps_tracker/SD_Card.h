@@ -15,15 +15,6 @@ struct SDCardInfo {
   uint32_t fatSize = 0;
 };
 
-struct DateTimeInfo {
-  unsigned long year;
-  unsigned long month;
-  unsigned long day;
-  unsigned long hour;
-  unsigned long minute;
-  unsigned long second;
-};
-
 class SDCard {
   public:
     SDCardInfo cardInfo;

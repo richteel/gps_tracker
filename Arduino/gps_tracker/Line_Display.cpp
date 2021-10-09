@@ -1,12 +1,12 @@
 #include "Line_Display.h"
 
 /******** PUBLIC ********/
-void LineDisplay::begin(const DevType* dev, uint8_t i2cAddr, int rst, const uint8_t* font, int labelCount, Label labels[]) {
+void LineDisplay::begin(const DevType* dev, uint8_t i2cAddr, int rst, const uint8_t* font, int labelCount, Label &labels) {
   Wire.begin();
   Wire.setClock(400000L);
 
   labelArrayLen = labelCount;
-  labelArrPtr = &labels[0];
+  labelArrPtr = &labels;
 
 #if rst >= 0
   display.begin(dev, i2cAddr, rst);

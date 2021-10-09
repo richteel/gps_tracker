@@ -15,7 +15,7 @@ class Buttons {
   public:
     uint8_t buttonStateArrayLen = 0;
 
-    void begin(int buttonCount, ButtonState buttons[]);
+    void begin(int buttonCount, ButtonState &buttons);
     bool readSwitch(int swIndex);
 
   private:

@@ -1,15 +1,11 @@
 #include "SD_Card.h"
 
-//DateTimeInfo dateTimeInfo = { 2000, 1, 1, 0, 0, 0 };
-
 // call back for file timestamps
 void SdDateTime(uint16_t* date, uint16_t* time) {
   // return date using FAT_DATE macro to format fields
-  //*date = FAT_DATE(dateTimeInfo.year, dateTimeInfo.month, dateTimeInfo.day);
   *date = FAT_DATE(year(), month(), day());
 
   // return time using FAT_TIME macro to format fields
-  //*time = FAT_TIME(dateTimeInfo.hour, dateTimeInfo.minute, dateTimeInfo.second);
   *time = FAT_TIME(hour(), minute(), second());
 }
 
@@ -70,6 +66,7 @@ void SDCard::UpdateSDInfo() {
 
   if (!volume.init(card))
     return;
+
   updateFatSize(volume);
 
   if (cardInfo.fatSize == 0)

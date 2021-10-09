@@ -22,7 +22,7 @@ class LineDisplay {
     uint8_t currentScreen = 0;
     uint8_t labelArrayLen = 0;
 
-    void begin(const DevType* dev, uint8_t i2cAddr, int rst, const uint8_t* font, int labelCount, Label labels[]);
+    void begin(const DevType* dev, uint8_t i2cAddr, int rst, const uint8_t* font, int labelCount, Label &labels);
 
     void changeScreen(int screenNumber);
     void incrementScreen(int incValue);

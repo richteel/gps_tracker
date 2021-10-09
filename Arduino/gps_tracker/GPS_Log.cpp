@@ -5,17 +5,11 @@
 void GPS_Log::begin(const char header[], SDCard &sdcard) {
   logHeader = &header[0];
   sdCard = &sdcard;
-  if (Serial) {
-    Serial.print("begin Header = ");
-    Serial.println(header);
-  }
 }
 
 void GPS_Log::logGPS(gps_fix &fix) {
-  if (!sdCard->CardPresent()) {
-    Serial.println("RETURN");
+  if (!sdCard->CardPresent())
     return;
-  }
 
   // Does the file already exist?
   bool fileExists = updateFileName(fix);
@@ -24,10 +18,10 @@ void GPS_Log::logGPS(gps_fix &fix) {
   File myFile = SD.open(filename, FILE_WRITE);
 
   if (!fileExists) {
-    if (Serial) {
-      Serial.print(F("Created log file: "));
-      Serial.println(filename);
-    }
+    //if (Serial) {
+    //  Serial.print(F("Created log file: "));
+    //  Serial.println(filename);
+    //}
     myFile.println(F("Date/Time\tLat\tLong\tAlt\tHeading\tSpeed\tSatellites"));
   }
 
