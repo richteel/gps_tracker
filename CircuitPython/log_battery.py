@@ -33,10 +33,15 @@ def log():
 
 def writeData(fileName):
     rowText = ""
+    col = 0
 
     for item in items:
-        if len(rowText) > 0:
+        if col != 0:
             rowText += "\t"
+
+        # First item is always date if it is not present do not write the data
+        if col == 0 and (item["value"] is None or len(item["value"]) == 0):
+            return
 
         rowText += item["value"]
 
