@@ -162,7 +162,7 @@ def updateBatteryIcon():
         idx = 3
     elif helper.battPercent > 0.33:
         idx = 2
-    elif helper.battPercent > helper.minVoltage:
+    elif helper.voltage > helper.minVoltage:
         idx = 1
 
     helper.lastBattIconIdx = idx

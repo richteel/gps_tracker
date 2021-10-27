@@ -47,6 +47,7 @@ def writeData(fileName):
         if col == 0 and (item["value"] is None or len(item["value"]) == 0):
             return
 
+        col += 1
         rowText += item["value"]
 
     hw_sdcard.writeToFile(fileName, rowText)

@@ -32,12 +32,14 @@ def update():
     helper.battPercent = get_voltagePercent()
     helper.isCharging = isCharging()
     helper.isCharged = helper.isCharging and \
-        helper.voltage >= helper.maxVoltage
+        (helper.voltage >= helper.maxVoltage or helper.lastChargedState)
     helper.status = helper.batteryStatus_Discharging
     if helper.isCharging:
         helper.status = helper.batteryStatus_Charging
         if helper.isCharged:
             helper.status = helper.batteryStatus_Charged
+
+    helper.lastChargedState = helper.isCharged
 
     dispItems.battery["voltage"]["value"] = \
         helper.dataToString(helper.voltage, "{:.2f}", "V")

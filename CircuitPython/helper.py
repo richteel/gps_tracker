@@ -1,13 +1,14 @@
 # Battery
 battPin = None
 usbPin = None
-minVoltage = 3.4
-maxVoltage = 4.1
+minVoltage = 3.35
+maxVoltage = 4.2
 voltage = 0
 battPercent = 0
 isCharging = False
 isCharged = False
 battStatus = ""
+lastChargedState = False
 
 # Display
 display = None
