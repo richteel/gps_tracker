@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="Front Buttons.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="5.9295174"
+     inkscape:cx="52.027843"
+     inkscape:cy="-6.9988833"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.01"
+       d="M 0,0 H 5 V 2.15 H 3.925 V 6 H 1.075 V 2.15 H 0 Z"
+       id="path857"
+       sodipodi:nodetypes="ccccccccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.01"
+       d="M 8.7508814,0.03425482 H 13.750881 V 2.1842548 h -1.075 v 3.85 H 9.8258813 v -3.85 H 8.7508814 Z"
+       id="path857-3"
+       sodipodi:nodetypes="ccccccccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.01"
+       d="m 9.3333632,5.9896334 h -5 v -2.15 h 1.075 v -3.84999996 h 2.85 V 3.8396334 h 1.075 z"
+       id="path857-35"
+       sodipodi:nodetypes="ccccccccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.01"
+       d="m 18.205048,6.0342548 h -5 v -2.15 h 1.075 v -3.85 h 2.85 v 3.85 h 1.075 z"
+       id="path857-35-3"
+       sodipodi:nodetypes="ccccccccc" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.00996677"
+       id="rect1395"
+       width="2.9900334"
+       height="2.9900331"
+       x="17.771877"
+       y="0.22309038" />
+  </g>
+</svg>
