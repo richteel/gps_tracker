@@ -952,6 +952,75 @@ LETTER landscape</description>
 <hole x="25" y="2" drill="2.2"/>
 <hole x="2" y="2" drill="2.2"/>
 </package>
+<package name="ADAFRUIT_SDCARD3V3_B">
+<wire x1="0" y1="20.32" x2="0" y2="2.54" width="0" layer="22"/>
+<wire x1="0" y1="2.54" x2="2.54" y2="0" width="0" layer="22" curve="90"/>
+<wire x1="2.54" y1="0" x2="22.86" y2="0" width="0" layer="22"/>
+<wire x1="22.86" y1="0" x2="25.4" y2="2.54" width="0" layer="22" curve="90"/>
+<wire x1="25.4" y1="2.54" x2="25.4" y2="20.32" width="0" layer="22"/>
+<wire x1="25.4" y1="20.32" x2="22.86" y2="22.86" width="0" layer="22" curve="90"/>
+<wire x1="22.86" y1="22.86" x2="2.54" y2="22.86" width="0" layer="22"/>
+<wire x1="2.54" y1="22.86" x2="0" y2="20.32" width="0" layer="22" curve="90"/>
+<circle x="2.54" y="20.32" radius="1.75" width="0.2032" layer="21"/>
+<circle x="2.54" y="20.32" radius="1" width="2.032" layer="39"/>
+<circle x="2.54" y="20.32" radius="1" width="2.032" layer="40"/>
+<circle x="2.54" y="20.32" radius="1" width="2.032" layer="41"/>
+<circle x="2.54" y="20.32" radius="1" width="2.032" layer="42"/>
+<pad name="P$2" x="2.54" y="20.32" drill="2.5" diameter="3.2"/>
+<circle x="22.86" y="20.32" radius="1.75" width="0.2032" layer="21"/>
+<circle x="22.86" y="20.32" radius="1" width="2.032" layer="39"/>
+<circle x="22.86" y="20.32" radius="1" width="2.032" layer="40"/>
+<circle x="22.86" y="20.32" radius="1" width="2.032" layer="41"/>
+<circle x="22.86" y="20.32" radius="1" width="2.032" layer="42"/>
+<pad name="P$1" x="22.86" y="20.32" drill="2.5" diameter="3.2"/>
+<wire x1="1.27" y1="3.175" x2="1.27" y2="1.905" width="0.2032" layer="52"/>
+<pad name="1_3V3" x="2.54" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<pad name="2_GND" x="5.08" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<pad name="3_SCLK" x="7.62" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<pad name="4_DO" x="10.16" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<pad name="5_DI" x="12.7" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<pad name="6_CS" x="15.24" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<pad name="7_DAT1" x="17.78" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<pad name="8_DAT2" x="20.32" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<pad name="9_CARDDET" x="22.86" y="2.54" drill="1" diameter="1.778" rot="R90"/>
+<text x="12.7" y="20.32" size="0.8128" layer="26" ratio="18" rot="MR0" align="center">&gt;NAME</text>
+<rectangle x1="20.066" y1="2.286" x2="20.574" y2="2.794" layer="51"/>
+<rectangle x1="17.526" y1="2.286" x2="18.034" y2="2.794" layer="51"/>
+<rectangle x1="14.986" y1="2.286" x2="15.494" y2="2.794" layer="51"/>
+<rectangle x1="12.446" y1="2.286" x2="12.954" y2="2.794" layer="51"/>
+<rectangle x1="9.906" y1="2.286" x2="10.414" y2="2.794" layer="51"/>
+<rectangle x1="7.366" y1="2.286" x2="7.874" y2="2.794" layer="51"/>
+<rectangle x1="4.826" y1="2.286" x2="5.334" y2="2.794" layer="51"/>
+<rectangle x1="2.286" y1="2.286" x2="2.794" y2="2.794" layer="51"/>
+<rectangle x1="22.606" y1="2.286" x2="23.114" y2="2.794" layer="51"/>
+<text x="5.08" y="0.889" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">GND</text>
+<text x="10.16" y="0.889" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">SO</text>
+<text x="15.24" y="0.889" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">CS</text>
+<text x="20.32" y="0.889" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">DAT2</text>
+<text x="12.7" y="0.889" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">SI</text>
+<wire x1="19.431" y1="22.352" x2="19.431" y2="25.781" width="0" layer="22" style="shortdash"/>
+<wire x1="19.431" y1="25.781" x2="18.161" y2="27.051" width="0" layer="22" style="shortdash" curve="90"/>
+<wire x1="18.161" y1="27.051" x2="9.652" y2="27.051" width="0" layer="22" style="shortdash"/>
+<wire x1="9.652" y1="27.051" x2="8.382" y2="25.781" width="0" layer="22" style="shortdash" curve="90"/>
+<wire x1="8.382" y1="25.781" x2="8.382" y2="22.352" width="0" layer="22" style="shortdash"/>
+<wire x1="8.382" y1="21.59" x2="8.382" y2="22.352" width="0" layer="22" style="shortdash"/>
+<wire x1="8.382" y1="22.352" x2="9.652" y2="23.622" width="0" layer="22" style="shortdash" curve="-90"/>
+<wire x1="9.652" y1="23.622" x2="18.161" y2="23.622" width="0" layer="22" style="shortdash"/>
+<wire x1="18.161" y1="23.622" x2="19.431" y2="22.352" width="0" layer="22" style="shortdash" curve="-90"/>
+<wire x1="19.431" y1="22.352" x2="19.431" y2="21.59" width="0" layer="22" style="shortdash"/>
+<wire x1="8.382" y1="20.828" x2="8.382" y2="21.59" width="0" layer="22" style="shortdash"/>
+<wire x1="8.382" y1="21.59" x2="9.652" y2="22.86" width="0" layer="22" style="shortdash" curve="-90"/>
+<wire x1="9.652" y1="22.86" x2="18.161" y2="22.86" width="0" layer="22" style="shortdash"/>
+<wire x1="18.161" y1="22.86" x2="19.431" y2="21.59" width="0" layer="22" style="shortdash" curve="-90"/>
+<wire x1="19.431" y1="21.59" x2="19.431" y2="20.828" width="0" layer="22" style="shortdash"/>
+<text x="2.54" y="4.191" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">3V</text>
+<text x="7.62" y="4.191" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">CLK</text>
+<text x="17.78" y="4.191" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">D1</text>
+<text x="22.86" y="4.191" size="1.016" layer="22" font="vector" ratio="12" rot="MR0" align="center">DET</text>
+<text x="10.16" y="4.191" size="1.016" layer="22" font="vector" ratio="12" rot="MR180" align="center">D0</text>
+<text x="12.7" y="4.191" size="1.016" layer="22" font="vector" ratio="12" rot="MR180" align="center">CMD</text>
+<text x="15.24" y="4.191" size="1.016" layer="22" font="vector" ratio="12" rot="MR180" align="center">D3</text>
+</package>
 </packages>
 <symbols>
 <symbol name="ADAFRUIT_FEATHER_RP2040">
@@ -1102,6 +1171,22 @@ LETTER landscape</description>
 <technology name="">
 <attribute name="ADAFRUIT_PN" value="4682" constant="no"/>
 </technology>
+</technologies>
+</device>
+<device name="BOTTOM_MNT" package="ADAFRUIT_SDCARD3V3_B">
+<connects>
+<connect gate="G$1" pin="1_3V3" pad="1_3V3"/>
+<connect gate="G$1" pin="2_GND" pad="2_GND"/>
+<connect gate="G$1" pin="3_SCLK" pad="3_SCLK"/>
+<connect gate="G$1" pin="4_DO" pad="4_DO"/>
+<connect gate="G$1" pin="5_DI" pad="5_DI"/>
+<connect gate="G$1" pin="6_CS" pad="6_CS"/>
+<connect gate="G$1" pin="7_DAT1" pad="7_DAT1"/>
+<connect gate="G$1" pin="8_DAT2" pad="8_DAT2"/>
+<connect gate="G$1" pin="9_CARDDET" pad="9_CARDDET"/>
+</connects>
+<technologies>
+<technology name=""/>
 </technologies>
 </device>
 </devices>
@@ -2364,7 +2449,6 @@ JST PH 2-pin thru-home side entry</description>
 <parts>
 <part name="FRAME1" library="teelsys-0.2" deviceset="LETTER_L" device=""/>
 <part name="FEATHER_RP2040" library="TeelSys-0.3" deviceset="ADAFRUIT_FEATHER_RP2040" device=""/>
-<part name="SDCARD1" library="TeelSys-0.3" deviceset="ADAFRUIT_SDCARD3V3" device="THROUGHHOLE"/>
 <part name="U$1" library="microbuilder" deviceset="3.3V" device=""/>
 <part name="U$2" library="microbuilder" deviceset="3.3V" device=""/>
 <part name="U$3" library="microbuilder" deviceset="GND" device=""/>
@@ -2394,6 +2478,11 @@ JST PH 2-pin thru-home side entry</description>
 <part name="U$12" library="microbuilder" deviceset="3.3V" device=""/>
 <part name="JSTPH" library="adafruit" deviceset="JST_2PIN" device="-SMT-RA"/>
 <part name="U$13" library="microbuilder" deviceset="GND" device=""/>
+<part name="R7" library="microbuilder" deviceset="RESISTOR" device="0805" value="2M"/>
+<part name="R8" library="microbuilder" deviceset="RESISTOR" device="0805" value="2M"/>
+<part name="C2" library="microbuilder" deviceset="CAP_CERAMIC" device="_0805" value="0.1 uF"/>
+<part name="U$14" library="microbuilder" deviceset="GND" device=""/>
+<part name="SDCARD2" library="TeelSys-0.3" deviceset="ADAFRUIT_SDCARD3V3" device="BOTTOM_MNT"/>
 </parts>
 <sheets>
 <sheet>
@@ -2404,7 +2493,6 @@ JST PH 2-pin thru-home side entry</description>
 <instance part="FRAME1" gate="G$3" x="147.32" y="0"/>
 <instance part="FRAME1" gate="G$2" x="236.22" y="30.48"/>
 <instance part="FEATHER_RP2040" gate="G$1" x="104.14" y="121.92"/>
-<instance part="SDCARD1" gate="G$1" x="157.48" y="127" rot="R270"/>
 <instance part="U$1" gate="G$1" x="154.94" y="132.08"/>
 <instance part="U$2" gate="G$1" x="76.2" y="157.48"/>
 <instance part="U$3" gate="G$1" x="68.58" y="142.24"/>
@@ -2434,17 +2522,22 @@ JST PH 2-pin thru-home side entry</description>
 <instance part="U$12" gate="G$1" x="137.16" y="73.66"/>
 <instance part="JSTPH" gate="G$1" x="205.74" y="147.32" rot="R180"/>
 <instance part="U$13" gate="G$1" x="215.9" y="134.62"/>
+<instance part="R7" gate="G$1" x="213.36" y="101.6" rot="R90"/>
+<instance part="R8" gate="G$1" x="213.36" y="114.3" rot="R90"/>
+<instance part="C2" gate="G$1" x="223.52" y="114.3"/>
+<instance part="U$14" gate="G$1" x="236.22" y="121.92"/>
+<instance part="SDCARD2" gate="G$1" x="160.02" y="127" rot="R270"/>
 </instances>
 <busses>
 </busses>
 <nets>
 <net name="N$1" class="0">
 <segment>
-<pinref part="SDCARD1" gate="G$1" pin="9_CARDDET"/>
-<wire x1="154.94" y1="83.82" x2="142.24" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="157.48" y1="83.82" x2="142.24" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="142.24" y1="83.82" x2="142.24" y2="99.06" width="0.1524" layer="91"/>
 <pinref part="FEATHER_RP2040" gate="G$1" pin="9_D6"/>
 <wire x1="142.24" y1="99.06" x2="121.92" y2="99.06" width="0.1524" layer="91"/>
+<pinref part="SDCARD2" gate="G$1" pin="9_CARDDET"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -2452,8 +2545,8 @@ JST PH 2-pin thru-home side entry</description>
 <pinref part="FEATHER_RP2040" gate="G$1" pin="5_D12"/>
 <wire x1="121.92" y1="119.38" x2="142.24" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="142.24" y1="119.38" x2="142.24" y2="109.22" width="0.1524" layer="91"/>
-<pinref part="SDCARD1" gate="G$1" pin="4_DO"/>
-<wire x1="142.24" y1="109.22" x2="154.94" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="109.22" x2="157.48" y2="109.22" width="0.1524" layer="91"/>
+<pinref part="SDCARD2" gate="G$1" pin="4_DO"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -2461,8 +2554,8 @@ JST PH 2-pin thru-home side entry</description>
 <pinref part="FEATHER_RP2040" gate="G$1" pin="7_D10"/>
 <wire x1="121.92" y1="109.22" x2="139.7" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="109.22" x2="139.7" y2="114.3" width="0.1524" layer="91"/>
-<pinref part="SDCARD1" gate="G$1" pin="3_SCLK"/>
-<wire x1="139.7" y1="114.3" x2="154.94" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="114.3" x2="157.48" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="SDCARD2" gate="G$1" pin="3_SCLK"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -2470,8 +2563,8 @@ JST PH 2-pin thru-home side entry</description>
 <pinref part="FEATHER_RP2040" gate="G$1" pin="6_D11"/>
 <wire x1="121.92" y1="114.3" x2="134.62" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="114.3" x2="134.62" y2="104.14" width="0.1524" layer="91"/>
-<pinref part="SDCARD1" gate="G$1" pin="5_DI"/>
-<wire x1="134.62" y1="104.14" x2="154.94" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="134.62" y1="104.14" x2="157.48" y2="104.14" width="0.1524" layer="91"/>
+<pinref part="SDCARD2" gate="G$1" pin="5_DI"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -2481,8 +2574,8 @@ JST PH 2-pin thru-home side entry</description>
 <wire x1="129.54" y1="104.14" x2="129.54" y2="101.6" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="101.6" x2="152.4" y2="101.6" width="0.1524" layer="91"/>
 <wire x1="152.4" y1="101.6" x2="152.4" y2="99.06" width="0.1524" layer="91"/>
-<pinref part="SDCARD1" gate="G$1" pin="6_CS"/>
-<wire x1="152.4" y1="99.06" x2="154.94" y2="99.06" width="0.1524" layer="91"/>
+<pinref part="SDCARD2" gate="G$1" pin="6_CS"/>
+<wire x1="152.4" y1="99.06" x2="157.48" y2="99.06" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -2491,12 +2584,12 @@ JST PH 2-pin thru-home side entry</description>
 <wire x1="144.78" y1="129.54" x2="147.32" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="147.32" y1="129.54" x2="149.86" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="149.86" y1="129.54" x2="149.86" y2="119.38" width="0.1524" layer="91"/>
-<pinref part="SDCARD1" gate="G$1" pin="2_GND"/>
-<wire x1="149.86" y1="119.38" x2="154.94" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="149.86" y1="119.38" x2="157.48" y2="119.38" width="0.1524" layer="91"/>
 <pinref part="S1" gate="1" pin="S"/>
 <wire x1="139.7" y1="132.08" x2="147.32" y2="132.08" width="0.1524" layer="91"/>
 <wire x1="147.32" y1="132.08" x2="147.32" y2="129.54" width="0.1524" layer="91"/>
 <junction x="147.32" y="129.54"/>
+<pinref part="SDCARD2" gate="G$1" pin="2_GND"/>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="GND"/>
@@ -2555,12 +2648,23 @@ JST PH 2-pin thru-home side entry</description>
 <wire x1="208.28" y1="144.78" x2="215.9" y2="144.78" width="0.1524" layer="91"/>
 <wire x1="215.9" y1="144.78" x2="215.9" y2="137.16" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="R8" gate="G$1" pin="2"/>
+<pinref part="C2" gate="G$1" pin="P$1"/>
+<wire x1="213.36" y1="119.38" x2="218.44" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="U$14" gate="G$1" pin="GND"/>
+<wire x1="218.44" y1="119.38" x2="223.52" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="236.22" y1="124.46" x2="218.44" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="218.44" y1="124.46" x2="218.44" y2="119.38" width="0.1524" layer="91"/>
+<junction x="218.44" y="119.38"/>
+</segment>
 </net>
 <net name="3.3V" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="3.3V"/>
-<pinref part="SDCARD1" gate="G$1" pin="1_3V3"/>
 <wire x1="154.94" y1="129.54" x2="154.94" y2="124.46" width="0.1524" layer="91"/>
+<pinref part="SDCARD2" gate="G$1" pin="1_3V3"/>
+<wire x1="154.94" y1="124.46" x2="157.48" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$2" gate="G$1" pin="3.3V"/>
@@ -2753,6 +2857,38 @@ JST PH 2-pin thru-home side entry</description>
 <pinref part="U$10" gate="G$1" pin="SCL"/>
 <wire x1="121.92" y1="88.9" x2="132.08" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="88.9" x2="132.08" y2="68.58" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="USB_SENSE" class="0">
+<segment>
+<pinref part="R8" gate="G$1" pin="1"/>
+<pinref part="R7" gate="G$1" pin="2"/>
+<wire x1="213.36" y1="109.22" x2="213.36" y2="106.68" width="0.1524" layer="91"/>
+<pinref part="C2" gate="G$1" pin="P$2"/>
+<wire x1="223.52" y1="111.76" x2="223.52" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="223.52" y1="106.68" x2="213.36" y2="106.68" width="0.1524" layer="91"/>
+<junction x="213.36" y="106.68"/>
+<wire x1="228.6" y1="106.68" x2="223.52" y2="106.68" width="0.1524" layer="91"/>
+<junction x="223.52" y="106.68"/>
+<label x="228.6" y="106.68" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="FEATHER_RP2040" gate="G$1" pin="10_D5"/>
+<wire x1="121.92" y1="93.98" x2="124.46" y2="93.98" width="0.1524" layer="91"/>
+<label x="124.46" y="93.98" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="V_USB" class="0">
+<segment>
+<pinref part="FEATHER_RP2040" gate="G$1" pin="3_VUSB"/>
+<wire x1="121.92" y1="129.54" x2="124.46" y2="129.54" width="0.1524" layer="91"/>
+<label x="124.46" y="129.54" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="R7" gate="G$1" pin="1"/>
+<wire x1="213.36" y1="96.52" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="93.98" x2="210.82" y2="93.98" width="0.1524" layer="91"/>
+<label x="210.82" y="93.98" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 </nets>
