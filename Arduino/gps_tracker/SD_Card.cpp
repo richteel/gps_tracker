@@ -1,174 +1,303 @@
 #include "SD_Card.h"
 
-// call back for file timestamps
-void SdDateTime(uint16_t* date, uint16_t* time) {
-  // return date using FAT_DATE macro to format fields
-  *date = FAT_DATE(year(), month(), day());
+#define FILE_NAME_CARD "[SD_Card.cpp]"
 
-  // return time using FAT_TIME macro to format fields
-  *time = FAT_TIME(hour(), minute(), second());
+// Constructor: MISO, CS, SCK, MOSI, CD
+SD_Card::SD_Card(pin_size_t miso, pin_size_t cs, pin_size_t sck, pin_size_t mosi, pin_size_t cd) {
+  _miso = miso;
+  _cs = cs;
+  _sck = sck;
+  _mosi = mosi;
+  _cd = cd;
 }
 
-/******** PUBLIC ********/
+// *** Public ***
+bool SD_Card::begin() {
+  // Ensure the SPI pinout the SD card is connected to is configured properly
+  SPI1.setRX(_miso);
+  SPI1.setTX(_mosi);
+  SPI1.setSCK(_sck);
 
-bool SDCard::begin(uint8_t csPin, uint8_t cdPin) {
-  chipSelectPin = csPin;
-  cardDetectPin = cdPin;
+  // If there is a Card Detect Pin, set the cardPresent flag based on the value of the pin
+  if (_cd != NO_PIN) {
+    pinMode(_cd, INPUT);
+  }
 
-  // Set Card Detect to Input
-  pinMode(cardDetectPin, INPUT);
+  clearConfig();
+  // Call isCardPresent to do the following
+  //  - Set the cardPresent flag
+  //  - Call SD.begin
+  //  - Load the configuration file if an SD Card is present
+  isCardPresent();
 
-  cardInfo.cardInitialized = false;
+  // FSInfo fs_info;
+  SDFS.info(fs_info);
 
-  SdFile::dateTimeCallback(SdDateTime);
+  updateCardInfo();
 
-  lastCardState = !CardPresent();
-  cardState = lastCardState;
-
-  return cardInit();
+  return cardPresent;
 }
 
-bool SDCard::CardPresent() {
-  if (cardDetectPin > 0)
-    return !digitalRead(cardDetectPin);
-  else
+void SD_Card::clearConfig() {
+  sdCardConfig.gmtOffset = 0;
+  strlcpy(sdCardConfig.tzAbbr, "GMT", 4);
+  sdCardConfig.metric = true;
+
+  printConfig();
+}
+
+bool SD_Card::deleteFile(const char *fileFullName) {
+  if (!cardPresent) {
+    return false;
+  }
+
+  if (fileExists(fileFullName)) {
+    SD.remove(fileFullName);
     return true;
+  }
+  return false;
 }
 
-void SDCard::UpdateSDInfo() {
-  bool lastCardPresent = cardInfo.cardPresent;
-
-  if (requestReset)
-    return;
-
-  clearCardInfo();
-
-  if (!cardInfo.cardPresent)
-    return;
-
-  if (lastCardPresent != cardInfo.cardPresent && cardInfo.cardInitialized) {
-    requestReset = true;
-    return;
+bool SD_Card::fileExists(const char *fileFullName) {
+  if (!cardPresent) {
+    return false;
   }
 
-  if (!cardInfo.cardInitialized) {
-    if (!cardInit())
-      return;
-  }
-
-  Sd2Card card;
-  SdVolume volume;
-
-  if (!card.init(SPI_HALF_SPEED, chipSelectPin))
-    return;
-
-  updateCardType(card);
-
-  if (!volume.init(card))
-    return;
-
-  updateFatSize(volume);
-
-  if (cardInfo.fatSize == 0)
-    return;
-
-  updateCardSize(volume);
-
-  updateFileCount();
-
-  // Only call after card.init!!!!
-  SD.begin(chipSelectPin);
+  bool fileExists = SD.exists(fileFullName);
+  return fileExists;
 }
 
+bool SD_Card::isCardPresent() {
+  bool last_cardPresent = cardPresent;
+  cardPresent = true;
 
-/******** PRIVATE ********/
+  // If card detect pin is present, use it to determine if there is a sd card.
+  if (_cd != NO_PIN) {
+    cardPresent = digitalRead(_cd);
+    // If there is no card, call SD.end.
+    if (!cardPresent) {
+      SD.end();
+    }
+  } else {
+    SD.end();
+    cardPresent = SD.begin(_cs, SPI1);
+  }
 
-bool SDCard::cardInit() {
-  if (cardInfo.cardInitialized)
-    return cardInfo.cardInitialized;
+  // Attempt to reload the config file if the card was just inserted
+  if (cardPresent && !last_cardPresent) {
+    SD.begin(_cs, SPI1);
+    DEBUGV("%s isCardPresent - START: Reading Config File\n", FILE_NAME_CARD);
+    loadConfig();
+    printConfig();
+    DEBUGV("%s isCardPresent - FINISHED: Reading Config File\n", FILE_NAME_CARD);
+  }
 
-  // Clear card struct infromation
-  clearCardInfo();
-
-  if (!cardInfo.cardPresent)
-    return cardInfo.cardInitialized;
-
-  // DO NOT CALL BEFORE CARD.INIT!!!!
-  //if (!SD.begin(chipSelectPin)) {
-  //  return cardInfo.cardInitialized;
-  //}
-
-  cardInfo.cardInitialized = true;
-
-  return cardInfo.cardInitialized;
+  return cardPresent;
 }
 
-void SDCard::clearCardInfo() {
-  cardInfo.cardPresent = CardPresent();
-  cardInfo.cardSize = 0;
-  strcpy(cardInfo.cardSizeUnits, "");
-  strcpy(cardInfo.cardType, "");
-  cardInfo.cardFileCount = 0;
-  cardInfo.fatSize = 0;
+bool SD_Card::loadConfig(const char *fileFullName) {
+  if (strlen(fileFullName) > 0) {
+    strlcpy(sdCardConfigFullName, fileFullName, sizeof(sdCardConfigFullName));
+  }
+
+  // Reset to default values
+  clearConfig();
+
+  if (!fileExists(sdCardConfigFullName)) {
+    Serial.printf("%s loadConfig - return false 0 sdCardConfigFullName: %s (FILE NOT FOUND)\n", FILE_NAME_CARD, sdCardConfigFullName);
+    return false;
+  }
+
+  File f = readFile(sdCardConfigFullName);
+
+  if (!f) {
+    Serial.printf("%s loadConfig - return false 1 sdCardConfigFullName: %s (FILE READ FAILED)\n", FILE_NAME_CARD, sdCardConfigFullName);
+    return false;
+  }
+
+  /*
+    https://arduinojson.org/v6/assistant/#/step1
+      Data structures	48	Bytes needed to stores the JSON objects and arrays in memory 
+      Strings	28	Bytes needed to stores the strings in memory 
+      Total (minimum)	76	Minimum capacity for the JsonDocument.
+      Total (recommended)	96	Including some slack in case the strings change, and rounded to a power of two
+  */
+  const int config_json_capacity = 96;  // JSON_OBJECT_SIZE(4);
+
+  StaticJsonDocument<config_json_capacity> doc;
+
+  // Deserialize the JSON document
+  DeserializationError error = deserializeJson(doc, f);
+  if (error) {
+    DEBUGV("%s loadConfig - return false 2 ERROR: %s\n", FILE_NAME_CARD, error);
+    Serial.printf("%s loadConfig - return false 2 ERROR: %s\n", FILE_NAME_CARD, error);
+    return false;
+  } else {
+    sdCardConfig.gmtOffset = doc["gmtOffset"];
+    strlcpy(sdCardConfig.tzAbbr, doc["tzAbbr"], sizeof(sdCardConfig.tzAbbr));
+    sdCardConfig.metric = doc["metric"];
+  }
+
+  f.close();
+
+  return true;
 }
 
-void SDCard::updateCardSize(SdVolume &volume) {
-  uint32_t volumesize;
-  volumesize = volume.blocksPerCluster();    // clusters are collections of blocks
-  volumesize *= volume.clusterCount();       // we'll have a lot of clusters
-  // SD card blocks are always 512 bytes
+void SD_Card::printConfig() {
+  Config *config = &sdCardConfig;
+  int cnt = 0;
 
-  if (volumesize > pow(1024, 3) / 512) {
-    cardInfo.cardSize  = ((float)volumesize / (float)2) / ((float)pow(1024, 2));
-    strcpy(cardInfo.cardSizeUnits, "GB");
-  }
-  else if (volumesize > pow(1024, 2) / 512) {
-    cardInfo.cardSize  = ((float)volumesize / (float)2) / ((float)pow(1024, 1));
-    strcpy(cardInfo.cardSizeUnits, "MB");
-  }
-  else if (volumesize > pow(1024, 1) / 512) {
-    cardInfo.cardSize  = ((float)volumesize / (float)2) / ((float)pow(1024, 0));
-    strcpy(cardInfo.cardSizeUnits, "KB");
-  }
-  else {
-    cardInfo.cardSize  = (float)volumesize * 512;
-    strcpy(cardInfo.cardSizeUnits, "Bytes");
-  }
+  Serial.printf("%s printConfig - GMT Offset = %d\n", FILE_NAME_CARD, config->gmtOffset);
+  Serial.printf("%s printConfig - TZ Abbreviation = %s\n", FILE_NAME_CARD, config->tzAbbr);
+  Serial.printf("%s printConfig - Metric = %s\n", FILE_NAME_CARD, config->metric ? "Yes" : "No");
 }
 
-void SDCard::updateCardType(Sd2Card &card) {
-  switch (card.type()) {
-    case SD_CARD_TYPE_SD1:
-      strcpy(cardInfo.cardType, "SD1");
+File SD_Card::readFile(const char *fileFullName) {
+  if (!cardPresent) {
+    return FileImplPtr();
+  }
+
+  return SD.open(fileFullName, FILE_READ);
+}
+
+bool SD_Card::renameFile(const char *fromFileFullName, const char *toFileFullName) {
+  if (!cardPresent) {
+    return false;
+  }
+
+  if (fileExists(toFileFullName)) {
+    deleteFile(toFileFullName);
+  }
+
+  if (fileExists(fromFileFullName)) {
+    SD.rename(fromFileFullName, toFileFullName);
+    return true;
+  }
+
+  return false;
+}
+
+bool SD_Card::saveConfig() {
+  
+  return true;
+}
+
+void SD_Card::updateCardInfo(bool updateCardPresent) {
+  cardInfo.cardInserted = false;
+  cardInfo.totalKBytes = 0;
+  cardInfo.usedKBytes = 0;
+  cardInfo.fileCount = 0;
+  strlcpy(cardInfo.cardType, "\0", sizeof(cardInfo.cardType));
+  strlcpy(cardInfo.totalSize, "\0", sizeof(cardInfo.totalSize));
+  strlcpy(cardInfo.usedSize, "\0", sizeof(cardInfo.usedSize));
+  strlcpy(cardInfo.freeSize, "\0", sizeof(cardInfo.freeSize));
+
+  if (updateCardPresent) {
+    cardInfo.cardInserted = isCardPresent();
+  } else {
+    cardInfo.cardInserted = cardPresent;
+  }
+
+  if (!cardInfo.cardInserted) {
+    return;
+  }
+
+  // // Assign Total and Used Bytes
+  cardInfo.usedKBytes = fs_info.usedBytes / 1024.0f;
+  cardInfo.totalKBytes = SD.totalClusters() * (SD.clusterSize() / 1024.0f);
+
+  // Update file count once per minute
+  if (!fileCountInit || lastUpdateCount >= 240) {
+    // Assign File Count
+    cardInfo.fileCount = fileCount();
+    lastFileCount = cardInfo.fileCount;
+    lastUpdateCount = 0;
+    fileCountInit = true;
+  } else {
+    cardInfo.fileCount = lastFileCount;
+  }
+
+  // Assign Card Type
+  switch (SD.type()) {
+    case 0:
+      strlcpy(cardInfo.cardType, "SD1", 15);
       break;
-    case SD_CARD_TYPE_SD2:
-      strcpy(cardInfo.cardType, "SD2");
+    case 1:
+      strlcpy(cardInfo.cardType, "SD2", 15);
       break;
-    case SD_CARD_TYPE_SDHC:
-      strcpy(cardInfo.cardType, "SDHC");
+    case 3:
+      strlcpy(cardInfo.cardType, "SDHC/SDXC", 15);
       break;
     default:
-      strcpy(cardInfo.cardType, "Unknown");
-      break;
+      strlcpy(cardInfo.cardType, "Unknown", 15);
   }
+
+  // Assign formatted sizes
+  formatedSizeString(cardInfo.totalSize, cardInfo.totalKBytes, sizeof(cardInfo.totalSize));
+  formatedSizeString(cardInfo.usedSize, cardInfo.usedKBytes, sizeof(cardInfo.usedSize));
+  formatedSizeString(cardInfo.freeSize, cardInfo.totalKBytes - cardInfo.usedKBytes, sizeof(cardInfo.freeSize));
 }
 
-void SDCard::updateFatSize(SdVolume &volume) {
-  cardInfo.fatSize = volume.fatType();
+bool SD_Card::writeLogEntry(const char *fileFullName, const char *message) {
+  if (!cardPresent) {
+    return false;
+  }
+
+  File logFile = SD.open(fileFullName, FILE_WRITE);
+  logFile.println(message);
+  logFile.close();
+
+  return true;
 }
 
-void SDCard::updateFileCount() {
-  File root;
-  root = SD.open("/");
+
+// *** Private ***
+int SD_Card::countFiles(File dir) {
+  int count = 0;
 
   while (true) {
-    File entry =  root.openNextFile();
+    File entry = dir.openNextFile();
+    if (!entry) {
+      // no more files or directories
+      return count;
+    }
 
-    if (! entry) // no more files
-      break;
-
-    cardInfo.cardFileCount++;
+    if (entry.isDirectory()) {
+      count += countFiles(entry);
+    } else {
+      count++;
+    }
+    entry.close();
   }
 
-  root.close();
+  return count;
+}
+
+int SD_Card::fileCount() {
+  if (!isCardPresent()) {
+    return 0;
+  }
+
+  File root = SD.open("/");
+  return countFiles(root);
+}
+
+void SD_Card::formatedSizeString(char *buffer, size_t kBytes, int maxLen) {
+  float size = (float)kBytes;
+  if (kBytes < 1024) {
+    snprintf(buffer, maxLen, "%8d Kb", kBytes);
+    return;
+  }
+  size = size / 1024.0f;
+  if (size < 1024) {
+    snprintf(buffer, maxLen, "%8.3f Mb", size);
+    return;
+  }
+  size = size / 1024.0f;
+  if (size < 1024) {
+    snprintf(buffer, maxLen, "%8.3f Gb", size);
+    return;
+  }
+  size = size / 1024.0f;
+  snprintf(buffer, maxLen, "%8.3f Tb", size);
 }
