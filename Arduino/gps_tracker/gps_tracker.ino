@@ -183,7 +183,7 @@ void gpsWriteToLog(GpsInfo gpsData) {
 
     char filename[80];
     char logBuffer[80];
-    snprintf(filename, sizeof(filename), "/gpsdata/%04d%02d%2d.txt", year(gpsData.epoch), gpsData.month, gpsData.day);
+    snprintf(filename, sizeof(filename), "/gpsdata/%04d%02d%02d.txt", year(gpsData.epoch), gpsData.month, gpsData.day);
     snprintf(logBuffer, sizeof(logBuffer), "%s,%f,%f,%f,%f,%f", gpsData.isoTime, gpsData.latitudeDegrees, gpsData.longitudeDegrees, gpsData.altitude, gpsData.angle, gpsData.speed * 1.852);
 
     if (xSemaphoreTake(sdcard_mutex, 10) == pdTRUE) {
