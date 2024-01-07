@@ -184,9 +184,13 @@ void gpsWriteToLog(GpsInfo gpsData) {
     char filename[80];
     char logBuffer[80];
     snprintf(filename, sizeof(filename), "/gpsdata/%04d%02d%02d.txt", year(gpsData.epoch), gpsData.month, gpsData.day);
-    snprintf(logBuffer, sizeof(logBuffer), "%s,%f,%f,%f,%f,%f", gpsData.isoTime, gpsData.latitudeDegrees, gpsData.longitudeDegrees, gpsData.altitude, gpsData.angle, gpsData.speed * 1.852);
+    snprintf(logBuffer, sizeof(logBuffer), "%s,%s,%f,%f,%f,%f,%f", gpsData.utc_date, gpsData.utc_time, gpsData.latitudeDegrees, gpsData.longitudeDegrees, gpsData.altitude, gpsData.angle, (gpsData.speed * 1000.852));
 
     if (xSemaphoreTake(sdcard_mutex, 10) == pdTRUE) {
+      // Write file header if file does not exist already
+      if(!sdCard.fileExists(filename)) {
+        sdCard.writeLogEntry(filename, "utc_d,utc_t,lat,lon,alt,head,speed");
+      }
       sdCard.writeLogEntry(filename, logBuffer);
       xSemaphoreGive(sdcard_mutex);
     } else {
@@ -395,6 +399,8 @@ void checkGps(void *param) {
       gpsInfo.satellites = GPS.satellites;
       gpsInfo.fix = GPS.fix;
       strftime(gpsInfo.isoTime, sizeof(gpsInfo.isoTime), "%Y-%m-%dT%TZ", gmtime(&gpsInfo.epoch));
+      strftime(gpsInfo.utc_date, sizeof(gpsInfo.utc_date), "%Y-%m-%d", gmtime(&gpsInfo.epoch));
+      strftime(gpsInfo.utc_time, sizeof(gpsInfo.utc_date), "%T", gmtime(&gpsInfo.epoch));
 
       if (xQueueSend(gps_queue, (void *)&gpsInfo, 10) != pdTRUE) {
         Serial.println(F("checkGps - GPS Queue Full -----------------------------"));

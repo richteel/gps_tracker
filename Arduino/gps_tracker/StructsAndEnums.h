@@ -132,6 +132,8 @@ struct GpsInfo {
   bool fix;                          ///< Have a fix?
   time_t epoch;                      // Unix Time
   char isoTime[22];                  // ISO 8601 formatted timestamp
+  char utc_date[11];                // UTC Date
+  char utc_time[11];                // UTC Time
 };                                   // GpsInfo
 
 struct Log_Entry {
