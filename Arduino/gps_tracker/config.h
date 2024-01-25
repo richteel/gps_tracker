@@ -7,6 +7,7 @@ struct Config {
   int gmtOffset;
   char tzAbbr[4];
   bool metric;
+  int displayOffSecs;
 };
 
 #endif  // CONFIG

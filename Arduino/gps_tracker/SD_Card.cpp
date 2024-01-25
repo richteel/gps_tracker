@@ -42,6 +42,7 @@ void SD_Card::clearConfig() {
   sdCardConfig.gmtOffset = 0;
   strlcpy(sdCardConfig.tzAbbr, "GMT", 4);
   sdCardConfig.metric = true;
+  sdCardConfig.displayOffSecs = 15;
 
   printConfig();
 }
@@ -122,7 +123,7 @@ bool SD_Card::loadConfig(const char *fileFullName) {
       Total (minimum)	76	Minimum capacity for the JsonDocument.
       Total (recommended)	96	Including some slack in case the strings change, and rounded to a power of two
   */
-  const int config_json_capacity = 96;  // JSON_OBJECT_SIZE(4);
+  const int config_json_capacity = 120;  // JSON_OBJECT_SIZE(5);
 
   StaticJsonDocument<config_json_capacity> doc;
 
@@ -136,6 +137,7 @@ bool SD_Card::loadConfig(const char *fileFullName) {
     sdCardConfig.gmtOffset = doc["gmtOffset"];
     strlcpy(sdCardConfig.tzAbbr, doc["tzAbbr"], sizeof(sdCardConfig.tzAbbr));
     sdCardConfig.metric = doc["metric"];
+    sdCardConfig.displayOffSecs = doc["displayOffSecs"];
   }
 
   f.close();
@@ -150,6 +152,7 @@ void SD_Card::printConfig() {
   Serial.printf("%s printConfig - GMT Offset = %d\n", FILE_NAME_CARD, config->gmtOffset);
   Serial.printf("%s printConfig - TZ Abbreviation = %s\n", FILE_NAME_CARD, config->tzAbbr);
   Serial.printf("%s printConfig - Metric = %s\n", FILE_NAME_CARD, config->metric ? "Yes" : "No");
+  Serial.printf("%s printConfig - Display Off Seconds = %d\n", FILE_NAME_CARD, config->displayOffSecs);
 }
 
 File SD_Card::readFile(const char *fileFullName) {

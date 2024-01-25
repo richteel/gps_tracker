@@ -81,11 +81,17 @@ public:
     oledDisplay.ssd1306_command(SSD1306_DISPLAYON);
   }
 
-  void toggleDisplayOnOff() {
+  void toggleDisplayOnOff(bool forceOn = false, bool forceOff = false) {
     displayOn = !displayOn;
 
+    if(forceOn) {
+      displayOn = true;
+    } else if(forceOff) {
+      displayOn = false;
+    }
+
     Serial.print("toggleDisplayOnOff: Turn ");
-    Serial.println(displayOn? "On" : "Off");
+    Serial.println(displayOn ? "On" : "Off");
     if (displayOn) {
       wakeDisplay();
     } else {

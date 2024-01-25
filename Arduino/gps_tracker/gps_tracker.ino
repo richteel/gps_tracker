@@ -188,7 +188,7 @@ void gpsWriteToLog(GpsInfo gpsData) {
 
     if (xSemaphoreTake(sdcard_mutex, 10) == pdTRUE) {
       // Write file header if file does not exist already
-      if(!sdCard.fileExists(filename)) {
+      if (!sdCard.fileExists(filename)) {
         sdCard.writeLogEntry(filename, "utc_d,utc_t,lat,lon,alt,head,speed");
       }
       sdCard.writeLogEntry(filename, logBuffer);
@@ -476,6 +476,8 @@ void checkSwitches(void *param) {
   unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
   unsigned long debounceDelay = 35;    // the debounce time; increase if the output flickers
 
+  uint32_t displayOnTimer = millis();
+
   switches[0].pin = PIN_SW0;
   switches[1].pin = PIN_SW1;
   switches[2].pin = PIN_SW2;
@@ -501,6 +503,12 @@ void checkSwitches(void *param) {
     if (statechanged) {
       // wait for things to calm down
       vTaskDelay(debounceDelay / portTICK_PERIOD_MS);
+
+      displayOnTimer = millis();
+    } else {
+      if (display.displayOn && (millis() - displayOnTimer) > (sdCard.sdCardConfig.displayOffSecs * 1000)) {
+        display.toggleDisplayOnOff(false, true);
+      }
     }
 
     for (int i = 0; i < 4; i++) {
@@ -550,41 +558,47 @@ void handleSwitches(void *param) {
     while (xQueueReceive(switch_queue, (void *)&item, 0) == pdTRUE) {
       // Serial.printf("SW%d %s\n", item.index, switchStateName[item.state]);
       if (item.state == SwitchStates::Pressed) {
-        switch (item.index) {
-          case 0:
-            display.toggleDisplayOnOff();
-            pixels.setPixelColor(0, 0);
-            pixels.show();
-            break;
-          case 1:
-            if (display.displayOn) {
-              currentScreenIndex--;
-              if (currentScreenIndex < 0) {
-                currentScreenIndex = NUM_OF_SCREENS - 1;
+        if (!display.displayOn) {
+          display.toggleDisplayOnOff(true, false);
+          pixels.setPixelColor(0, 0);
+          pixels.show();
+        } else {
+          switch (item.index) {
+            case 0:
+              // display.toggleDisplayOnOff();
+              // pixels.setPixelColor(0, 0);
+              // pixels.show();
+              break;
+            case 1:
+              if (display.displayOn) {
+                currentScreenIndex--;
+                if (currentScreenIndex < 0) {
+                  currentScreenIndex = NUM_OF_SCREENS - 1;
+                }
+              } else {
+                neopixelToggle(1, 0, 0);
               }
-            } else {
-              neopixelToggle(1, 0, 0);
-            }
-            break;
-          case 2:
-            if (display.displayOn) {
-              currentScreenIndex++;
-              if (currentScreenIndex >= NUM_OF_SCREENS) {
-                currentScreenIndex = 0;
+              break;
+            case 2:
+              if (display.displayOn) {
+                currentScreenIndex++;
+                if (currentScreenIndex >= NUM_OF_SCREENS) {
+                  currentScreenIndex = 0;
+                }
+              } else {
+                neopixelToggle(0, 1, 0);
               }
-            } else {
-              neopixelToggle(0, 1, 0);
-            }
-            break;
-          case 3:
-            if (display.displayOn) {
-              sdCard.sdCardConfig.metric = !sdCard.sdCardConfig.metric;
-            } else {
-              neopixelToggle(0, 0, 1);
-            }
-            break;
-          default:
-            break;
+              break;
+            case 3:
+              if (display.displayOn) {
+                sdCard.sdCardConfig.metric = !sdCard.sdCardConfig.metric;
+              } else {
+                neopixelToggle(0, 0, 1);
+              }
+              break;
+            default:
+              break;
+          }
         }
       }
       Serial.printf("Switch %d %s\n", item.index, switchStateName[item.state]);
